@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="html9patch:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/html9patch_jar</output-path>
+    <root id="archive" name="html9patch.jar">
+      <element id="module-output" name="html9patch" />
+    </root>
+  </artifact>
+</component>
