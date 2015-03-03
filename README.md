@@ -10,8 +10,10 @@
 
 
 # Demos
-* **Step1:** $git clone git@github.com:kimseongrim/html9patch.git
-* **Step2:** open <path>/demos/index.html
+```Bash
+$git clone git@github.com:kimseongrim/html9patch.git
+$open <path>/demos/index.html
+```
 
 # How to create 9patch html
 ```Bash
