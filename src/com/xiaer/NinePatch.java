@@ -598,6 +598,15 @@ public class NinePatch {
 
     }
 
+    protected String getJS(int width, int height, String idName, String className) {
+
+        return new String();
+    }
+
+    protected void createJS(String innerHTML){
+
+    }
+
     protected void clear(){
 
         ninePatchProperty.clear();
@@ -613,5 +622,6 @@ public class NinePatch {
         leftPropertyList.clear();
         rightPropertyList.clear();
         bottomPropertyList.clear();
+
     }
 }
