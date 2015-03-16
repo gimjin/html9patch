@@ -8,24 +8,30 @@
 * Upgrade development efficiency
 * and more Goole/Bing/Baidu “9patch”
 
+> **Warning:** Not compatibility IE6, stand up for the W3C.
+
 
 # Demos
 ```Bash
 $git clone git@github.com:kimseongrim/html9patch.git
-$open <path>/demos/index.html
+[HTML Mode demo]
+$open <path>/demos/generateHTML/html9patch.html
+[JS Mode demo]
+$open <path>/demos/generateJS/index.html
 ```
 
-# How to create 9patch html
+# How to create 9patch HTML or JS?
 ```Bash
-java -jar html9patch.jar [src] [transparent]
-(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos/ true
-      $open <path>/demos/index.html)
+java -jar html9patch.jar [src] [isHTML]
+(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos/generateJS
+      $open <path>/demos/generateJS/index.html)
+(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos/generateHTML -html
+      $open <path>/demos/generateHTML/html9patch.html)
 
-[src]         image or image directory URL
-              image directory is batch processing directory All 9-Patch PNG file.
+[src]    Required   image or image directory URL
+                    image directory is batch processing directory All 9-Patch PNG file.
 
-[transparent] true or false
-              Only for IE6 select false.(IE6 not support transparent PNG file)
+[isHTML] Optional   -html USE HTML Mode, Don't write USE JS Mode
 ```
 
 # Create 9-Patch file

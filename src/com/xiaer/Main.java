@@ -6,6 +6,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by kimseongrim on 2/21/15.
@@ -15,20 +16,17 @@ public class Main {
     @Option(name = "-s", usage = "Image or image directory URL\r\n directory is batch processing directory All 9-Patch PNG file.", required = true, metaVar="Directory or File")
     private File src = new File(".");
 
-    // bg: set white background color
-    @Option(name = "-bg", usage = "Only for IE6 input -bg.(IE6 not support transparent PNG file).")
-    private Boolean background = false;
-
     @Option(name = "-html", usage = "Input -html output HTML source.(Default output Javascript source)")
-    private Boolean html = false;
+    private Boolean isHTML = false;
 
     public static void main(String[] args) throws IOException {
         new Main().doMain(args);
     }
 
     public void doMain(String[] args) throws IOException {
-        CmdLineParser parser = new CmdLineParser(this);
 
+        // argument
+        CmdLineParser parser = new CmdLineParser(this);
         try {
             // parse the arguments.
             parser.parseArgument(args);
@@ -43,50 +41,62 @@ public class Main {
         }
 
         // main
+        ArrayList<String> htmls = new ArrayList<String>();
+        ArrayList<String> ids = new ArrayList<String>();
+        String html = "";
+        String srcDirectory ="";
+
         if(src.isFile()){
 
             NinePatch np = new NinePatch(src);
-            np.slice(!background);
-            if(html) {
-                String innerHTML = np.getHTML(np.srcWidth * 5, np.srcHeight * 2, "id-" + np.srcName, "class-" + np.srcName);
-                np.createHTML(innerHTML);
-            }else{
+            srcDirectory = src.getCanonicalFile().getParentFile().toString();
+            np.slice(srcDirectory + System.getProperty("file.separator") + "images");
 
-            }
+            // get html code
+            html = np.getHTML(np.srcName);
+            htmls.add(html);
+            ids.add(np.srcName);
 
         }else if(src.isDirectory()){
 
             File[] fa = src.listFiles();
+            srcDirectory = src.getCanonicalFile().toString();
             NinePatch np;
-            String innerHTML;
-            String innerHTMLs = "";
+
 
             for(int i=0; i< fa.length; i++){
-                try {
+                if(fa[i].getName().substring(fa[i].getName().length() - 6).equalsIgnoreCase(".9.png")){
 
-                    if(fa[i].getName().substring(fa[i].getName().length() - 6).equalsIgnoreCase(".9.png")){
+                    np = new NinePatch(fa[i].getCanonicalFile());
+                    np.slice(srcDirectory + System.getProperty("file.separator") + "images");
 
-                        np = new NinePatch(fa[i].getCanonicalFile());
-                        np.slice(!background);
-
-                        if(html) {
-                            innerHTML = np.getHTML(np.srcWidth * 5, np.srcHeight * 2, "id-" + np.srcName, "class-" + np.srcName);
-                            innerHTMLs += innerHTML;
-                            np.clear();
-                            np.createHTML(innerHTMLs);
-                        }else{
-
-                        }
-
-                    }
-
-                }catch (Exception e){
-                    e.printStackTrace();
+                    // get html code
+                    html = np.getHTML(np.srcName);
+                    htmls.add(html);
+                    ids.add(np.srcName);
+                    // init Array data
+                    np.clear();
                 }
             }
+
+            // Check directory has 9patch images?
+            if(htmls.isEmpty() ){
+                System.err.println("Directory No 9patch images.");
+                System.exit(0);
+            }
+
         }else{
             System.err.println("Directory does not exist");
             System.exit(0);
+        }
+
+        // Create file
+        if(isHTML) {
+            // HTML Mode
+            UtilTools.createHTML(htmls, srcDirectory);
+        }else{
+            // JS Mode
+            UtilTools.createJS(htmls, ids, srcDirectory);
         }
 
     }

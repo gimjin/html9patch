@@ -41,10 +41,7 @@ public class NinePatch {
     protected String src; /* /User/name/9patch/btn.9.png */
     protected String src9patchName; /* btn.9.png */
     protected String srcName = ""; /* btn */
-    protected String srcDirectory = ""; /* /User/name/9patch/ */
     protected String imgDirectory = "";
-    protected int srcWidth = 0;
-    protected int srcHeight = 0;
 
     /**
      * 9-Patch feature analysis data
@@ -55,21 +52,21 @@ public class NinePatch {
      *      ...
      *    ]
      */
-    protected ArrayList<int[]> ninePatchProperty = new ArrayList<int[]>();
+    private ArrayList<int[]> ninePatchProperty = new ArrayList<int[]>();
 
     /**
      *filler <td>String</td>
      * ArrayList<String>
      * ["<img />", "<img />", "<br /><img /><br />", ...]
      */
-    protected ArrayList<String> fillerTdTags = new ArrayList<String>();
+    private ArrayList<String> fillerTdTags = new ArrayList<String>();
 
     /**
      * div input area
      * ArrayList<Integer>
      * [padding-top, padding-bottom, padding-left, padding-right]
      */
-    protected ArrayList<Integer> contentArea = new ArrayList<Integer>();
+    private ArrayList<Integer> contentArea = new ArrayList<Integer>();
 
     /**
      * ArrayList<Integer>
@@ -101,7 +98,6 @@ public class NinePatch {
             this.src = src.getCanonicalFile().toString();
             this.src9patchName = src.getCanonicalFile().getName().toString();
             this.srcName = src.getCanonicalFile().getName().toString().replace(".9.png", "");
-            this.srcDirectory = src.getCanonicalFile().getParentFile().toString();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -412,10 +408,10 @@ public class NinePatch {
         }
     }
 
-    protected void slice(Boolean transparent) {
+    protected void slice(String targetDirectory) {
 
         try {
-            File mPath = new File(srcDirectory + System.getProperty("file.separator") + "images");
+            File mPath = new File(targetDirectory);
             imgDirectory = mPath.getCanonicalFile().toString();
             if (!mPath.isDirectory()) {
                 mPath.mkdirs();
@@ -426,58 +422,16 @@ public class NinePatch {
 
         //cut start
         for (int i = 0; i < ninePatchProperty.size(); i++) {
-            cut(src, imgDirectory + System.getProperty("file.separator") + srcName + "_" + i + ".png", ninePatchProperty.get(i)[3], ninePatchProperty.get(i)[4], ninePatchProperty.get(i)[5], ninePatchProperty.get(i)[6], transparent);
+            UtilTools.cut(src, imgDirectory + System.getProperty("file.separator") + srcName + "_" + i + ".png", ninePatchProperty.get(i)[3], ninePatchProperty.get(i)[4], ninePatchProperty.get(i)[5], ninePatchProperty.get(i)[6]);
         }
     }
 
     /**
      *
-     * @param inputFile
-     * @param outFile
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param transparent IE6 USE false）
+     * @param idName
+     * @return
      */
-    private void cut(String inputFile, String outFile, int x, int y, int width, int height, Boolean transparent) {
-
-        ImageInputStream imageStream = null;
-
-        try {
-            FileInputStream input = new FileInputStream(inputFile);
-            FileOutputStream output = new FileOutputStream(outFile);
-
-            Iterator<ImageReader> readers = ImageIO.getImageReadersByFormatName("png");
-            ImageReader reader = readers.next();
-            imageStream = ImageIO.createImageInputStream(input);
-            reader.setInput(imageStream, true);
-            ImageReadParam param = reader.getDefaultReadParam();
-
-            srcWidth = reader.getWidth(0);
-            srcHeight = reader.getHeight(0);
-
-            Rectangle rect = new Rectangle(x, y, width, height);
-            param.setSourceRegion(rect);
-            BufferedImage bi = reader.read(0, param);
-
-            if(!transparent) {
-                bi.createGraphics().drawImage(bi, 0, 0, Color.WHITE, null);
-            }
-
-            ImageIO.write(bi, "png", output);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     *
-     * @param width div width
-     * @param height div height
-     */
-    protected String getHTML(int width, int height, String idName, String className) {
+    protected String getHTML(String idName) {
 
         // get padding
         int paddingTop = contentArea.get(0);
@@ -500,7 +454,7 @@ public class NinePatch {
             if (ninePatchProperty.get(i)[1] == 0) {
                 // set width
                 tmpWidth = " width='" + ninePatchProperty.get(i)[5] + "px'";
-                // set scaleText
+                // set scale imgs
                 tmpScale = fillerTdTags.get(i);
             }
             // first Column
@@ -537,7 +491,7 @@ public class NinePatch {
             }
         }
 
-        String cp = "<div id='" + idName + "' class='nine-patch " + className + "' style='width:" + width + "px; height:" + height + "px;'>" + "\r\n" +
+        String html = "<div id='" + idName + "' class='nine-patch'>" + "\r\n" +
                 "\t<div style='top:" + paddingTop + "px; bottom:" + paddingBottom + "px; left:" + paddingLeft + "px; right:" + paddingRight + "px;'>" + "\r\n" +
                 "\t\tEntry Content" + "\r\n" +
                 "\t</div>\r\n" + "\r\n" +
@@ -546,64 +500,7 @@ public class NinePatch {
                 "\t</table>" + "\r\n" +
                 "</div>\r\n";
 
-        String html = "<h2>" + srcName + ".9.png</h2>" + "\r\n" +
-                "<img src='./" + src9patchName + "' />" + "\r\n" +
-                cp +
-                "<h4>Copy this HTML code</h4>" + "\r\n" +
-                "<textarea rows='10' cols='60'>" + "\r\n" +
-                cp +
-                "</textarea>" + "\r\n" +
-                "</body>" + "\r\n" +
-                "</html>";
-
         return html;
-
-    }
-
-    protected void createHTML(String innerHTML){
-        String css = "<style>" + "\r\n" +
-                ".nine-patch {position:relative;}" + "\r\n" +
-                ".nine-patch div {position:absolute; z-index:100; top:0; right:0; bottom:0; left:0; overflow:hidden;}" + "\r\n" +
-                ".nine-patch table {position:relative; width:100%; height:100%; padding:0; margin:0; border:0; border-collapse:collapse;}" + "\r\n" +
-                ".nine-patch table tr {padding:0; margin:0; border:0;}" + "\r\n" +
-                ".nine-patch table tr td {padding:0; margin:0; border:0; background-position:left top; background-repeat:repeat; background-size:100% 100%; -moz-background-size: 100% 100%; -webkit-background-size: 100% 100%; -o-background-size: 100% 100%;}" + "\r\n" +
-                ".nine-patch table tr td img {padding:0; margin:0; border:0; width:1px; height:1px; background:none; visibility:hidden;}" + "\r\n" +
-                "</style>" + "\r\n";
-        String html = "<html>" + "\r\n" +
-                "<head>" + "\r\n" +
-                css +
-                "</head>" + "\r\n" +
-                "<body>" + "\r\n" +
-                "<h1><a href='https://github.com/kimseongrim/html9patch' target='_blank'>html9patch GitHub</a></h1>" + "\r\n" +
-                "<h2>GLOBAL</h2>" + "\r\n" +
-                "<h4>Step1: Copy " + srcDirectory + "/images/* images to HTTP server images directory.</h4>" + "\r\n" +
-                "<h4>Step2: Copy CSS code to head tag.</h4>" + "\r\n" +
-                "<textarea rows='10' cols='60'>" + "\r\n" +
-                css +
-                "</textarea>" + "\r\n" +
-                innerHTML +
-                "</body>" + "\r\n" +
-                "</html>";
-        try {
-            File mFile = new File(srcDirectory + System.getProperty("file.separator") + "index.html");
-            mFile.createNewFile();
-
-            FileOutputStream o = new FileOutputStream(mFile);
-            o.write(html.getBytes("utf-8"));
-            o.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    protected String getJS(int width, int height, String idName, String className) {
-
-        return new String();
-    }
-
-    protected void createJS(String innerHTML){
 
     }
 
