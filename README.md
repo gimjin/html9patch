@@ -14,24 +14,17 @@
 # Demos
 ```Bash
 $git clone git@github.com:kimseongrim/html9patch.git
-[HTML Mode demo]
-$open <path>/demos/generateHTML/html9patch.html
-[JS Mode demo]
-$open <path>/demos/generateJS/index.html
+$open <path>/demos/index.html
 ```
 
-# How to create 9patch HTML or JS?
+# How to create?
 ```Bash
-java -jar html9patch.jar [src] [isHTML]
-(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos/generateJS
-      $open <path>/demos/generateJS/index.html)
-(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos/generateHTML -html
-      $open <path>/demos/generateHTML/html9patch.html)
+java -jar html9patch.jar -s [src]
+(e.g. $java -jar <path>/tools/html9patch.jar -s <path>/demos
+      $open <path>/demos/index.html)
 
 [src]    Required   image or image directory URL
                     image directory is batch processing directory All 9-Patch PNG file.
-
-[isHTML] Optional   -html USE HTML Mode, Don't write USE JS Mode
 ```
 
 # Create 9-Patch file

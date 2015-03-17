@@ -9,18 +9,23 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Created by kimseongrim on 3/15/15.
+ * Created by kimseongrim.
+ * @author Kim
+ * @link https://github.com/kimseongrim/html9patch
  */
+
 public class UtilTools {
-    
-    public static void createJS(ArrayList<String> html, ArrayList<String> id, String targetDirectory){
+
+    public static void createJS(ArrayList<String> html, ArrayList<String> id, String targetDirectory) {
 
         String js = "";
-        for (int i=0; i < html.size(); i++){
+        for (int i = 0; i < html.size(); i++) {
             js += "\t// Nine patch " + id.get(i) + ".9.png START\r\n" +
                     "\tvar " + id.get(i) + " = $('#" + id.get(i) + "');\r\n" +
                     "\tif(" + id.get(i) + "[0] != undefined) {\r\n" +
@@ -31,6 +36,7 @@ public class UtilTools {
                     "\t\tvar _height = " + id.get(i) + ".attr('height');\r\n" +
                     "\t\tvar _style = " + id.get(i) + ".attr('style') == undefined ? '' : " + id.get(i) + ".attr('style') + ' ';\r\n" +
                     "\t\tvar _class = " + id.get(i) + ".attr('class') == undefined ? '' : " + id.get(i) + ".attr('class') + ' ';\r\n" +
+                    "\t\tvar _html = " + id.get(i) + ".html();\r\n" +
                     "\r\n" +
                     "\t\t// replace template\r\n" +
                     "\t\treplaceDOM('#" + id.get(i) + "', " + id.get(i) + "_html);\r\n" +
@@ -47,11 +53,18 @@ public class UtilTools {
                     "\t\t\t_style += 'height:' + _height;\r\n" +
                     "\t\t}\r\n" +
                     "\t\t" + id.get(i) + ".attr('style', _style);\r\n" +
+                    "\t\t$('#" + id.get(i) + "_content').html(_html);\r\n" +
                     "\t}\r\n" +
                     "\t// Nine patch " + id.get(i) + ".9.png END\r\n";
         }
 
         String jsStream = "$(document).ready(function(){\r\n" +
+                "/**\r\n" +
+                "\t * INFO\r\n" +
+                "\t * Images directory is not in the ./images/ , please modify the imageDirectory variable\r\n" +
+                "\t */\r\n" +
+                "\tvar imageDirectory = './images/';\r\n" +
+                "\r\n" +
                 "\tvar replaceDOM = function (id, html) {\r\n" +
                 "\t\t$(id).replaceWith(html);\r\n" +
                 "\t}\r\n" +
@@ -72,10 +85,10 @@ public class UtilTools {
 
     }
 
-    public static void createHTML(ArrayList<String> htmls, String targetDirectory){
+    public static void createHTML(ArrayList<String> htmls, String targetDirectory) {
 
         String html = "";
-        for(int i=0; i< htmls.size(); i++){
+        for (int i = 0; i < htmls.size(); i++) {
             html += htmls.get(i);
         }
 
@@ -125,6 +138,36 @@ public class UtilTools {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 使用文件通道的方式复制文件
+     * @param s 源文件
+     * @param t 复制到的新文件
+     */
+    public static void copy(File s, File t) {
+        FileInputStream fi = null;
+        FileOutputStream fo = null;
+        FileChannel in = null;
+        FileChannel out = null;
+        try {
+            fi = new FileInputStream(s);
+            fo = new FileOutputStream(t);
+            in = fi.getChannel();//得到对应的文件通道
+            out = fo.getChannel();//得到对应的文件通道
+            in.transferTo(0, in.size(), out);//连接两个通道，并且从in通道读取，然后写入out通道
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fi.close();
+                in.close();
+                fo.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

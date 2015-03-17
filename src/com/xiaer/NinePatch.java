@@ -467,13 +467,13 @@ public class NinePatch {
 
             // create td & img
             if (ninePatchProperty.get(i)[0] == SLICE_TYPE_FIXED) {
-                bg += "\t\t\t<td" + tmpWidth + tmpHeight + " style='background-image:url(images/" + srcName + "_" + i + ".png);'></td>\r\n";
+                bg += "\t\t\t<td" + tmpWidth + tmpHeight + " style='background-image:url(\" + imageDirectory + \"" + srcName + "_" + i + ".png);'></td>\r\n";
             } else if (ninePatchProperty.get(i)[0] == SLICE_TYPE_REPEAT) {
-                bg += "\t\t\t<td style='background-image:url(images/" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
+                bg += "\t\t\t<td style='background-image:url(\" + imageDirectory + \"" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
             } else if (ninePatchProperty.get(i)[0] == SLICE_TYPE_REPEAT_X) {
-                bg += "\t\t\t<td" + tmpHeight + " style='background-image:url(images/" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
+                bg += "\t\t\t<td" + tmpHeight + " style='background-image:url(\" + imageDirectory + \"" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
             } else if (ninePatchProperty.get(i)[0] == SLICE_TYPE_REPEAT_Y) {
-                bg += "\t\t\t<td" + tmpWidth + " style='background-image:url(images/" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
+                bg += "\t\t\t<td" + tmpWidth + " style='background-image:url(\" + imageDirectory + \"" + srcName + "_" + i + ".png);'>" + tmpScale + "</td>\r\n";
             }
 
             // clear
@@ -492,7 +492,7 @@ public class NinePatch {
         }
 
         String html = "<div id='" + idName + "' class='nine-patch'>" + "\r\n" +
-                "\t<div style='top:" + paddingTop + "px; bottom:" + paddingBottom + "px; left:" + paddingLeft + "px; right:" + paddingRight + "px;'>" + "\r\n" +
+                "\t<div id='" + idName + "_content' style='top:" + paddingTop + "px; bottom:" + paddingBottom + "px; left:" + paddingLeft + "px; right:" + paddingRight + "px;'>" + "\r\n" +
                 "\t\tEntry Content" + "\r\n" +
                 "\t</div>\r\n" + "\r\n" +
                 "\t<table cellpadding='0' cellspacing='0'>" + "\r\n" +

@@ -9,15 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by kimseongrim on 2/21/15.
+ * Created by kimseongrim.
+ * @author Kim
+ * @link https://github.com/kimseongrim/html9patch
  */
+
 public class Main {
 
-    @Option(name = "-s", usage = "Image or image directory URL\r\n directory is batch processing directory All 9-Patch PNG file.", required = true, metaVar="Directory or File")
+    // 9-Patch source file directory.
+    @Option(name = "-s", usage = "Image or image directory URL\r\n directory is batch processing directory All 9-Patch PNG file.", required = true, metaVar="Source directory")
     private File src = new File(".");
-
-    @Option(name = "-html", usage = "Input -html output HTML source.(Default output Javascript source)")
-    private Boolean isHTML = false;
 
     public static void main(String[] args) throws IOException {
         new Main().doMain(args);
@@ -46,18 +47,7 @@ public class Main {
         String html = "";
         String srcDirectory ="";
 
-        if(src.isFile()){
-
-            NinePatch np = new NinePatch(src);
-            srcDirectory = src.getCanonicalFile().getParentFile().toString();
-            np.slice(srcDirectory + System.getProperty("file.separator") + "images");
-
-            // get html code
-            html = np.getHTML(np.srcName);
-            htmls.add(html);
-            ids.add(np.srcName);
-
-        }else if(src.isDirectory()){
+        if(src.isDirectory()){
 
             File[] fa = src.listFiles();
             srcDirectory = src.getCanonicalFile().toString();
@@ -90,14 +80,8 @@ public class Main {
             System.exit(0);
         }
 
-        // Create file
-        if(isHTML) {
-            // HTML Mode
-            UtilTools.createHTML(htmls, srcDirectory);
-        }else{
-            // JS Mode
-            UtilTools.createJS(htmls, ids, srcDirectory);
-        }
+        // Create JS File
+        UtilTools.createJS(htmls, ids, srcDirectory);
 
     }
 
