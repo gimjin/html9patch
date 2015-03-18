@@ -5,22 +5,54 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="./stylesheet.css" />
     <link rel="stylesheet" type="text/css" href="./jquery/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="./custom.css" />
+    <style type="text/css">
+        .custom {
+            font-weight: bold;
+            color: limegreen;
+        }
+
+        #btn_normal {
+            cursor: pointer;
+        }
+
+        div {
+            -moz-user-select:none;
+            -webkit-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+
+        textarea {
+            font-size: 20px;
+            outline: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            resize: none;
+            width: 100%;
+            height: 90%;
+            background:rgba(255, 255, 255, 0)
+        }
+
+    </style>
 </head>
 <body>
 <h1><a href="https://github.com/kimseongrim/html9patch" target="_blank">html9patch GitHub</a></h1>
 
 
-<div id="btn_toggle_off"  width="400px" height="100px" class="custom">Custom class, view ./custom.css</div>
-<div id="btn_toggle_on" width="400px" height="300px">Change the size of an element using the mouse.</div>
-<div id="chat_pop" style="color:red;">Set style attribute, Red color</div>
-<div id="html_ul_li_icon"><a href="http://www.w3c.org/" target="_blank">W3C Site</a></div>
-<div id="textfield_selected">
-    <textarea placeholder="Input Text" style="font-size: 20px; border: 0; width: 100%; height: 100%; background:rgba(255, 255, 255, 0) "></textarea>
-</div>
-<div id="popup_inline_error_above" style="width: 300px;">Err pop</div>
-<div id="popup_window_bg" width="100%">Input everything</div>
-<div id="scrollbar_handle"></div>
+
+
+<div id="btn_normal" state="btn_hovered|btn_pressed" style="width: 110px; height: 42px;">Button State</div>
+<div id="chat_pop" style="width: 200px; height: 160px; color: #ffffff;">Change the size of an element using the mouse.</div>
+<div id="html_ul_li_icon" style="height: 30px;"><a href="https://github.com/kimseongrim/html9patch" target="_blank">Github - html9patch</a></div>
+<div id="textfield_selected" style="width: 100%; height: 100px;"><textarea placeholder="Input Text" style=" "></textarea></div>
+<div id="popup_inline_error_above" style="width: 300px; height: 80px; color: red;">Set style attribute, Red color</div>
+<div id="scrollbar_handle" style="width: 100%;"></div>
+<div id="popup_window_bg" style="width: 300px; height: 200px;" class="custom">Custom class, view ./custom.css</div>
+
+
+
+
 
 <!-- jquery 1.9.0 support IE6/7/8, 2.x not support -->
 <script type="text/javascript" src="./jquery/jquery-1.9.0.js"></script>
@@ -28,11 +60,27 @@
 <script type="text/javascript" src="./html9patch.js"></script>
 <script type="text/javascript">
 $(function() {
-    $("#btn_toggle_on").resizable({
+    // Pop resize
+    $("#chat_pop").resizable({
         maxHeight: 400,
         maxWidth: 600,
-        minHeight: 150,
-        minWidth: 200
+        minHeight: 100,
+        minWidth: 100
+    });
+
+    // Button state
+    $('#btn_normal').mouseover(function(){
+        $('#btn_normal table').hide();
+        $('#btn_hovered_table').show();
+    }).mouseout(function(){
+        $('#btn_hovered_table').hide();
+        $('#btn_normal_table').show();
+    }).mousedown(function(){
+        $('#btn_hovered_table').hide();
+        $('#btn_pressed_table').show();
+    }).mouseup(function(){
+        $('#btn_pressed_table').hide();
+        $('#btn_hovered_table').show();
     });
 });
 </script>

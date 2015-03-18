@@ -47,8 +47,8 @@ public class NinePatch {
      * 9-Patch feature analysis data
      * ArrayList<int[]> ninePatchProperty
      *    [
-     *      [SLICE_TYPE, row, column, x, y, width, height, scaleWidth, scaleHeight,]
-     *      [SLICE_TYPE, row, column, x, y, width, height, scaleWidth, scaleHeight,]
+     *      [SLICE_TYPE, row, column, x, y, width, height, scaleWidth, scaleHeight]
+     *      [SLICE_TYPE, row, column, x, y, width, height, scaleWidth, scaleHeight]
      *      ...
      *    ]
      */
@@ -233,35 +233,27 @@ public class NinePatch {
                     if (j == 0 && i == 0) {
                         if (ninePatchProperty.get(ninePatchProperty.size() - 1)[7] > 0 && ninePatchProperty.get(ninePatchProperty.size() - 1)[8] > 0) {
                             for (int w = 0; w < ninePatchProperty.get(ninePatchProperty.size() - 1)[7]; w++) {
-                                tmpScale += "<img />";
+                                tmpScale += "<img class='f' />";
                             }
                             for (int h = 0; h < ninePatchProperty.get(ninePatchProperty.size() - 1)[8] - 1; h++) {
-                                tmpScale += "<br /><img />";
+                                tmpScale += "<img />";
                             }
                         } else if (ninePatchProperty.get(ninePatchProperty.size() - 1)[7] > 0) {
                             for (int w = 0; w < ninePatchProperty.get(ninePatchProperty.size() - 1)[7]; w++) {
-                                tmpScale += "<img />";
+                                tmpScale += "<img class='f' />";
                             }
                         } else if (ninePatchProperty.get(ninePatchProperty.size() - 1)[8] > 0) {
                             for (int h = 0; h < ninePatchProperty.get(ninePatchProperty.size() - 1)[8]; h++) {
-                                if (h == 0) {
-                                    tmpScale += "<img />";
-                                } else {
-                                    tmpScale += "<br /><img />";
-                                }
+                                tmpScale += "<img />";
                             }
                         }
                     } else if (i > 0 && j == 0) {
                         for (int w = 0; w < ninePatchProperty.get(ninePatchProperty.size() - 1)[7]; w++) {
-                            tmpScale += "<img />";
+                            tmpScale += "<img class='f' />";
                         }
                     } else if (j > 0 && i == 0) {
                         for (int h = 0; h < ninePatchProperty.get(ninePatchProperty.size() - 1)[8]; h++) {
-                            if (h == 0) {
-                                tmpScale += "<img />";
-                            } else {
-                                tmpScale += "<br /><img />";
-                            }
+                            tmpScale += "<img />";
                         }
                     }
                 }
@@ -495,7 +487,7 @@ public class NinePatch {
                 "\t<div id='" + idName + "_content' style='top:" + paddingTop + "px; bottom:" + paddingBottom + "px; left:" + paddingLeft + "px; right:" + paddingRight + "px;'>" + "\r\n" +
                 "\t\tEntry Content" + "\r\n" +
                 "\t</div>\r\n" + "\r\n" +
-                "\t<table cellpadding='0' cellspacing='0'>" + "\r\n" +
+                "\t<table id='" + idName + "_table' cellpadding='0' cellspacing='0'>" + "\r\n" +
                 bg +
                 "\t</table>" + "\r\n" +
                 "</div>\r\n";

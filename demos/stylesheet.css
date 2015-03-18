@@ -6,7 +6,7 @@
 .nine-patch div {
     position: absolute;
     z-index: 100;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .nine-patch table {
@@ -38,6 +38,7 @@
 }
 
 .nine-patch table tr td img {
+    display: block;
     padding: 0;
     margin: 0;
     border: 0;
@@ -45,4 +46,8 @@
     height: 1px;
     background: none;
     visibility: hidden;
+}
+
+.nine-patch table tr td img.f {
+    float: left;
 }
