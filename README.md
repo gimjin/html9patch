@@ -19,12 +19,19 @@ $open <path>/demos/index.html
 
 # How to create?
 ```Bash
-java -jar html9patch.jar -s [src]
-(e.g. $java -jar <path>/tools/html9patch.jar -s <path>/demos
+java -jar html9patch.jar [src]
+(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos
       $open <path>/demos/index.html)
 
 [src]    Required   image or image directory URL
                     image directory is batch processing directory All 9-Patch PNG file.
+```
+
+# adjust the slice images directory?
+```Bash
+$ vi <path> /html9patch.js
+Change line 6 var imageDirectory
+(e.g. http://cdn.yoursite.com/images/)
 ```
 
 # Create 9-Patch file
