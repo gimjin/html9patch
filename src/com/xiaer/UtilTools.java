@@ -57,7 +57,7 @@ public class UtilTools {
                     "\t\tvar " + id.get(i) + "_state_array = " + id.get(i) + "_state.split(\"|\");\r\n" +
                     "\t\tfor (var i = 0; i < " + id.get(i) + "_state_array.length; i++) {\r\n" +
                     "\t\t\tvar " + id.get(i) + "_var = eval(" + id.get(i) + "_state_array[i] + '_html');\r\n" +
-                    "\t\t\t$('#" + id.get(i) + "_table').after(" + id.get(i) + "_var.substring(" + id.get(i) + "_var.indexOf('<table'), " + id.get(i) + "_var.indexOf('</table>')+8))\r\n" +
+                    "\t\t\t$('#" + id.get(i) + "_table').after(" + id.get(i) + "_var.substring(" + id.get(i) + "_var.indexOf('<table'), " + id.get(i) + "_var.indexOf('</table>')+8));\r\n" +
                     "\t\t\t$('#' + " + id.get(i) + "_state_array[i] + '_table').hide();\r\n" +
                     "\t\t}\r\n" +
                     "\t}\r\n";
