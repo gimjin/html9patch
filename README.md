@@ -22,7 +22,8 @@ $open <path>/demos/index.html
 java -jar html9patch.jar [src]
 (e.g. $java -jar <path>/tools/html9patch.jar <path>/demos)
 vim <path>/demos/index.html
-// <div id="image name"></div>
+* <div id="image name"></div>
+* <script type="text/javascript" src="<patch>/html9patch.js"></script>
 // More function look at demo/index.html
 
 [src]    Required   9-Patch PNG file directory
