@@ -1,7 +1,7 @@
 ********************
 *  html9patch.jar  *
 ********************
-java -jar html9patch.jar -s [src]
+java -jar html9patch.jar [src]
 (e.g. $java -jar <path>/tools/html9patch.jar <path>/demos
       $open <path>/demos/index.html)
 
