@@ -20,8 +20,10 @@ $open <path>/demos/index.html
 # How to create?
 ```Bash
 java -jar html9patch.jar [src]
-(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos
-      $open <path>/demos/index.html)
+(e.g. $java -jar <path>/tools/html9patch.jar <path>/demos)
+vim <path>/demos/index.html
+// <div id="image name"></div>
+// More function look at demo/index.html
 
 [src]    Required   9-Patch PNG file directory
 ```
