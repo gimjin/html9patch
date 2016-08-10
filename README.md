@@ -22,7 +22,9 @@ $open <path>/demos/index.html
 java -jar html9patch.jar [src]
 (e.g. $java -jar <path>/tools/html9patch.jar <path>/demos)
 vim <path>/demos/index.html
-* <div id="image name"></div>
+* <link rel="stylesheet" type="text/css" href="<patch>/stylesheet.css" />
+* <div id="Image Name"></div>
+* <script type="text/javascript" src="<patch>/jquery-1.9.0.js"></script>
 * <script type="text/javascript" src="<patch>/html9patch.js"></script>
 // More function look at demo/index.html
 
